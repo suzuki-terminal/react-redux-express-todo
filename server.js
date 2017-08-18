@@ -26,8 +26,10 @@ let todos = [
   new Todo({ title: '女子力をつける' }),
 ];
 
-app.get('/todos', (req, res) => {
-  res.send({ todos });
+app.get('/todos', (req, res, next) => {
+  setTimeout(() => {
+    res.send({ todos });
+  }, 1000);
 });
 
 app.post('/todos', (req, res) => {
@@ -38,10 +40,11 @@ app.post('/todos', (req, res) => {
   res.send({ todo });
 });
 
-app.put('/todos', (req, res) => {
+app.put('/todos/:id', (req, res) => {
+  const id = req.params.id;
   const todo = req.body.todo;
 
-  todos = todos.map(t => t.id === todo.id ? todo : t);
+  todos = todos.map(t => t.id === id ? todo : t);
 
   res.send({ todo });
 });
